@@ -1,11 +1,12 @@
 ﻿using CtrlLove.DAL;
+using CtrlLove.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CtrlLove.Service;
 
 public interface IUserService
 {
-    List<User> GetAllUsers();
-    User GetUserById(string id);
-    List<User> GetMatchesByUser(string userId);
+    List<UserModel> GetAllUsers();
+    UserModel GetUserById(string id);
+    List<UserModel> GetMatchesByUser(string userId);
 }

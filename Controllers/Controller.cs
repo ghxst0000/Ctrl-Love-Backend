@@ -1,5 +1,6 @@
 ﻿using CtrlLove.DAL;
 using CtrlLove.Service;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CtrlLove.Controllers;
@@ -7,7 +8,7 @@ namespace CtrlLove.Controllers;
 [ApiController]
 [Route("/")]
 
-public class Controller
+public class Controller : ControllerBase
 {
     //repositoryk
     private static readonly IUserService _userService;
@@ -16,30 +17,30 @@ public class Controller
     [HttpGet("/users")]
     public IActionResult ShowAllUsers()
     {
-        return _userService.GetAllUsers();
+        return Ok(_userService.GetAllUsers());
     }
 
     [HttpGet("/users/{userId}")]
     public IActionResult ShowUserById(string userId)
     {
-        return _userService.GetUserById(userId);
+        return Ok(_userService.GetUserById(userId));
     }
     
     [HttpGet("/matches/{userId}")]
     public IActionResult ShowMatchesByUser(string userId)
     {
-        return _userService.GetMatchesByUser(userId);
+        return Ok(_userService.GetMatchesByUser(userId));
     }
     
     [HttpGet("/chatrooms/{chatroomId}/messages")]
     public IActionResult ShowMessagesByChatroomId(string chatroomId)
     {
-        return _chatService.GetMessagesByChatroomId(chatroomId);
+        return Ok(_chatService.GetMessagesByChatroomId(chatroomId));
     }
 
     [HttpGet("/chatrooms/byuser/{userId}")]
     public IActionResult ShowChatroomsByUser(string userId)
     {
-        return _chatService.GetChatroomsByUserID(userId);
+        return Ok(_chatService.GetChatroomsByUserID(userId));
     }
 }
