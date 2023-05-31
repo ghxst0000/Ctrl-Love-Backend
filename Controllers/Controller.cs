@@ -11,8 +11,13 @@ namespace CtrlLove.Controllers;
 public class Controller : ControllerBase
 {
     //repositoryk
-    private static readonly IUserService _userService;
-    private static readonly IChatService _chatService;
+    private readonly IUserService _userService;
+    //private readonly IChatService _chatService;
+
+    public Controller(IUserService userService)
+    {
+        _userService = userService;
+    }
 
     [HttpGet("/users")]
     public IActionResult ShowAllUsers()
@@ -31,7 +36,7 @@ public class Controller : ControllerBase
     {
         return Ok(_userService.GetMatchesByUser(userId));
     }
-    
+    /*
     [HttpGet("/chatrooms/{chatroomId}/messages")]
     public IActionResult ShowMessagesByChatroomId(string chatroomId)
     {
@@ -42,5 +47,5 @@ public class Controller : ControllerBase
     public IActionResult ShowChatroomsByUser(string userId)
     {
         return Ok(_chatService.GetChatroomsByUserID(userId));
-    }
+    }*/
 }
