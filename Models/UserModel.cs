@@ -1,24 +1,16 @@
 namespace CtrlLove.Models;
 
-public class UserModel
+public class UserModel : PublicUserModel
 {
-    public Guid ID { get; set; }
-    public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
     public ISet<Guid> Likes { get; set; }
     public ISet<Guid> Dislikes { get; set; }
-    public string Biography { get; set; }
-    public byte Age { get; set; }
     public DateTime Created { get; set; }
-    public string Location { get; set; }
-    public byte[] AgeRange { get; set; } = new byte[2];
-    public Gender Gender { get; set; }
+    public AgeRange AgeRange { get; set; } = new AgeRange();
     public ISet<Gender> DesiredGenders { get; set; }
-    public ISet<string> Photos { get; set; }
-    public ISet<string> Interests { get; set; }
 
-    public UserModel(
+    public UserModel (
         Guid id, 
         string name, 
         string email,
@@ -32,21 +24,21 @@ public class UserModel
         Gender gender,
         ISet<Gender> desiredGenders, 
         ISet<string> photos, 
-        ISet<string> interests)
+        ISet<string> interests) : 
+        base(id, 
+            name, 
+            biography, 
+            age, 
+            location,
+            gender,
+            photos, 
+            interests)
     {
-        ID = id;
-        Name = name;
         Email = email;
         Password = password;
         Likes = likes;
         Dislikes = dislikes;
-        Biography = biography;
-        Age = age;
         Created = created;
-        Location = location;
-        Gender = gender;
         DesiredGenders = desiredGenders;
-        Photos = photos;
-        Interests = interests;
     }
 }
