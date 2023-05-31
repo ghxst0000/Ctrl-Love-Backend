@@ -6,33 +6,33 @@ public class UserModel
     public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public Guid[] Likes { get; set; }
-    public Guid[] Dislikes { get; set; }
+    public ISet<Guid> Likes { get; set; }
+    public ISet<Guid> Dislikes { get; set; }
     public string Biography { get; set; }
     public byte Age { get; set; }
     public DateTime Created { get; set; }
     public string Location { get; set; }
     public byte[] AgeRange { get; set; } = new byte[2];
     public Gender Gender { get; set; }
-    public Gender[] DesiredGenders { get; set; }
-    public string[] Photos { get; set; }
-    public string[] Interests { get; set; }
+    public ISet<Gender> DesiredGenders { get; set; }
+    public ISet<string> Photos { get; set; }
+    public ISet<string> Interests { get; set; }
 
     public UserModel(
         Guid id, 
         string name, 
         string email,
         string password, 
-        Guid[] likes,
-        Guid[] dislikes, 
+        ISet<Guid> likes,
+        ISet<Guid> dislikes, 
         string biography, 
         byte age, 
         DateTime created, 
         string location, 
         Gender gender,
-        Gender[] desiredGenders, 
-        string[] photos, 
-        string[] interests)
+        ISet<Gender> desiredGenders, 
+        ISet<string> photos, 
+        ISet<string> interests)
     {
         ID = id;
         Name = name;
