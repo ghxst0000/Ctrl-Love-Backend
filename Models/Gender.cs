@@ -4,6 +4,6 @@ public enum Gender
 {
     Male,
     Female,
-    ApacheHelicopter,
+    NonBinary,
     Other
 }
