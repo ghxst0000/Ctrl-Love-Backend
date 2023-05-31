@@ -2,7 +2,8 @@
 
 namespace CtrlLove.Service;
 
-public interface IMessageService
+public interface IChatService
 {
     IActionResult GetMessagesByChatroomId(string id);
+    IActionResult GetChatroomsByUserID(string userId);
 }
