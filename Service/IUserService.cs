@@ -5,6 +5,7 @@ namespace CtrlLove.Service;
 
 public interface IUserService
 {
-    IActionResult GetAllUsers();
-    IActionResult GetUserById(string id);
+    List<User> GetAllUsers();
+    User GetUserById(string id);
+    List<User> GetMatchesByUser(string userId);
 }

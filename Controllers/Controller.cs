@@ -14,8 +14,7 @@ public class Controller
     private static readonly IChatService _chatService;
 
     [HttpGet("/users")]
-    public IActionResult GetUsers(int maxAge = 0, int minAge = 0, string location = null, Gender gender = null,
-        Gender desiredGender = null, Interest interest = null);
+    public IActionResult ShowAllUsers()
     {
         return _userService.GetAllUsers();
     }
@@ -26,10 +25,10 @@ public class Controller
         return _userService.GetUserById(userId);
     }
     
-    [HttpGet("/users/{userId}")]
-    public IActionResult ggg(string userId)
+    [HttpGet("/matches/{userId}")]
+    public IActionResult ShowMatchesByUser(string userId)
     {
-        return _userService.GetUserById(userId);
+        return _userService.GetMatchesByUser(userId);
     }
     
     [HttpGet("/chatrooms/{chatroomId}/messages")]
