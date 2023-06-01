@@ -2,10 +2,10 @@ namespace CtrlLove.Models;
 
 public class PublicUserModel
 {
-    public Guid ID { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string Biography { get; set; }
-    public DateTime BirthDate { get; set; }
+    private DateTime BirthDate { get; set; }
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ISet<string> Photos { get; set; }
@@ -13,7 +13,7 @@ public class PublicUserModel
 
     public PublicUserModel(string name, string biography, DateTime birthDate, string location, Gender gender, ISet<string> photos, ISet<string> interests)
     {
-        ID = Guid.NewGuid();
+        Id = Guid.NewGuid();
         Name = name;
         Biography = biography;
         BirthDate = birthDate;

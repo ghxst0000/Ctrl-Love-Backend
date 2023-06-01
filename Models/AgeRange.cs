@@ -19,4 +19,9 @@ public class AgeRange
         Bottom = MinimumAge;
         Top = MaximumAge;
     }
+
+    public bool IsInRange(int number)
+    {
+        return number <= Top && number >= Bottom;
+    }
 }
