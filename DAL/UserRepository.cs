@@ -58,27 +58,18 @@ public class UserRepository : IRepository<UserModel, Guid>
         return _users.FirstOrDefault(user => user.Id.Equals(id));
     }
 
-    public bool AddNewElement(object o)
+    public bool AddNewElement(UserModel user)
     {
-        throw new NotImplementedException();
+         _users.Add(user);
+         return _users.Contains(user);
     }
 
-    public bool DeleteElement(object o)
+    public bool DeleteElement(UserModel user)
     {
-        throw new NotImplementedException();
+        return _users.Remove(user);
     }
 
     public bool UpdateElement(object old, object updated)
-    {
-        throw new NotImplementedException();
-    }
-
-    public UserModel GetUserById(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<UserModel> GetMatchesByUser(string userId)
     {
         throw new NotImplementedException();
     }

@@ -31,12 +31,21 @@ public class UserService : IUserService
 
     public List<UserModel> GetMatchesByUser(Guid userId)
     {
-        
         List<UserModel> allUsers = _repository.GetAll();
         UserModel activeUser = GetUserById(userId);
         List<UserModel> matchingUsers = allUsers.Where(user => user.IsMatch(activeUser)).ToList();
         
         //TODO: maybe sort by location and intersts machings?
         return matchingUsers;
+    }
+
+    public bool DeleteUserById(Guid userId)
+    {
+        return _repository.DeleteElement(GetUserById(userId));
+    }
+
+    public bool AddNewUser(UserModel user)
+    {
+        return _repository.AddNewElement(user);
     }
 }

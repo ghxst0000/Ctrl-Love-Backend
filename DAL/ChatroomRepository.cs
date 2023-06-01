@@ -15,12 +15,12 @@ public class ChatroomRepository : IRepository<ChatRoomModel, Guid>
         throw new NotImplementedException();
     }
 
-    public bool AddNewElement(object o)
+    public bool AddNewElement(ChatRoomModel chatRoom)
     {
         throw new NotImplementedException();
     }
 
-    public bool DeleteElement(object o)
+    public bool DeleteElement(ChatRoomModel chatRoom)
     {
         throw new NotImplementedException();
     }
