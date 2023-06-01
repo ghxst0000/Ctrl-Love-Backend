@@ -40,4 +40,34 @@ public class UserModel : PublicUserModel
         Created = created;
         DesiredGenders = desiredGenders;
     }
+    
+    public bool IsMatch(UserModel user)
+    {
+        if (user.Id.Equals(Id))
+        {
+            return false;
+        }
+
+        if (!DesiredGenders.Contains(user.Gender))
+        {
+            return false;
+        }
+
+        if (!user.DesiredGenders.Contains(Gender))
+        {
+            return false;
+        }
+
+        if (!AgeRange.IsInRange(user.CalculateAge()))
+        {
+            return false;
+        }
+
+        if (!user.AgeRange.IsInRange(CalculateAge()))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

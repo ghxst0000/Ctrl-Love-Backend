@@ -34,13 +34,7 @@ public class UserService : IUserService
         
         List<UserModel> allUsers = _repository.GetAll();
         UserModel activeUser = GetUserById(userId);
-        List<UserModel> matchingUsers = allUsers.Where(user => !user.ID.Equals(userId) &&
-                                                               activeUser.DesiredGenders.Contains(user.Gender) &&
-                                                               user.DesiredGenders.Contains(activeUser.Gender) &&
-                                                               activeUser.AgeRange.Bottom <= user.CalculateAge() &&
-                                                               activeUser.AgeRange.Top >= user.CalculateAge() &&
-                                                               user.AgeRange.Bottom <= activeUser.CalculateAge() &&
-                                                               user.AgeRange.Top >= activeUser.CalculateAge()).ToList();
+        List<UserModel> matchingUsers = allUsers.Where(user => user.IsMatch(activeUser)).ToList();
         
         //TODO: maybe sort by location and intersts machings?
         return matchingUsers;
