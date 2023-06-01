@@ -7,6 +7,6 @@ namespace CtrlLove.Service;
 public interface IUserService
 {
     List<UserModel> GetAllUsers();
-    UserModel GetUserById(string id);
-    List<UserModel> GetMatchesByUser(string userId);
+    UserModel GetUserById(Guid id);
+    List<UserModel> GetMatchesByUser(Guid userId);
 }

@@ -5,9 +5,9 @@ namespace CtrlLove.Service;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _repository;
+    private readonly IRepository<UserModel, Guid> _repository;
 
-    public UserService(IUserRepository repository)
+    public UserService(IRepository<UserModel, Guid> repository)
     {
         _repository = repository;
     }
@@ -17,13 +17,24 @@ public class UserService : IUserService
         return _repository.GetAll();
     }
 
-    public UserModel GetUserById(string id)
+    public UserModel GetUserById(Guid id)
     {
-        return _repository.GetUserById(id);
+        return _repository.GetElementById(id);
     }
 
-    public List<UserModel> GetMatchesByUser(string userId)
+    public List<UserModel> GetMatchesByUser(Guid userId)
     {
-        return _repository.GetMatchesByUser(userId);
+        List<UserModel> allUsers = _repository.GetAll();
+        UserModel activeUser = _repository.GetElementById(userId);
+        List<UserModel> matchingUsers = allUsers.Where(user => !user.ID.Equals(userId) &&
+                                                               activeUser.DesiredGenders.Contains(user.Gender) &&
+                                                               user.DesiredGenders.Contains(activeUser.Gender) &&
+                                                               activeUser.AgeRange.Bottom >= user.CalculateAge() &&
+                                                               activeUser.AgeRange.Top <= user.CalculateAge() &&
+                                                               user.AgeRange.Bottom >= activeUser.CalculateAge() &&
+                                                               user.AgeRange.Top <= activeUser.CalculateAge()).ToList();
+        
+        //TODO: maybe sort by location and intersts machings?
+        return matchingUsers;
     }
 }
