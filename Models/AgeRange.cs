@@ -2,8 +2,6 @@ namespace CtrlLove.Models;
 
 public class AgeRange
 {
-    private const byte BaseAgeRangeBottom = 18;
-    private const byte BaseAgeRangeTop = 100;
     private const byte MinimumAge = 18;
     private const byte MaximumAge = 100;
     
@@ -18,7 +16,7 @@ public class AgeRange
 
     public AgeRange()
     {
-        Bottom = BaseAgeRangeBottom;
-        Top = BaseAgeRangeTop;
+        Bottom = MinimumAge;
+        Top = MaximumAge;
     }
 }

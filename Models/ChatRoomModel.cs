@@ -2,18 +2,14 @@ namespace CtrlLove.Models;
 
 public class ChatRoomModel
 {
-    public Guid ID { get; set; }
-    public ISet<UserModel> Participants { get; set; }
+    public Guid Id { get; set; }
+    public ISet<Guid> Participants { get; set; }
+    public List<MessageModel> messages { get; }
 
-    public ChatRoomModel(Guid id, ISet<UserModel> participants)
+    public ChatRoomModel(Guid id, ISet<Guid> participants)
     {
-        ID = id;
+        Id = id;
         Participants = participants;
-    }
-    
-    public ChatRoomModel(Guid id)
-    {
-        ID = id;
-        Participants = new HashSet<UserModel>();
+        messages = new List<MessageModel>();
     }
 }

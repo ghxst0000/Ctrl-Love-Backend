@@ -6,20 +6,24 @@ namespace CtrlLove.Service;
 
 public class ChatService : IChatService
 {
-    private readonly IChatroomRepository _repository;
+    private readonly IRepository<ChatRoomModel, Guid> _repository;
 
-    public ChatService(IChatroomRepository repository)
+    public ChatService(IRepository<ChatRoomModel, Guid> repository)
     {
         _repository = repository;
     }
 
-    public List<MessageModel> GetMessagesByChatroomId(string id)
+    public List<MessageModel> GetMessagesByChatroomId(Guid id)
     {
-        return _repository.GetMessagesByChatroomId(id);
+        return _repository.GetElementById(id).messages;
+
     }
 
-    public List<ChatRoomModel> GetChatroomsByUserID(string userId)
+    public List<ChatRoomModel> GetChatroomsByUserID(Guid userId)
     {
-        return _repository.GetChatroomsByUserID(userId);
+        List<ChatRoomModel> allRooms = _repository.GetAll();
+        
+        return allRooms.Where(room => room.Participants.Contains(userId)).ToList();
+
     }
 }
