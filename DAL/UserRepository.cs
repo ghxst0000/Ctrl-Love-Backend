@@ -72,14 +72,4 @@ public class UserRepository : IRepository<UserModel, Guid>
     {
         throw new NotImplementedException();
     }
-
-    public UserModel GetUserById(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<UserModel> GetMatchesByUser(string userId)
-    {
-        throw new NotImplementedException();
-    }
 }
