@@ -53,9 +53,9 @@ public class UserRepository : IRepository<UserModel, Guid>
         return _users;
     }
 
-    public UserModel GetElementById(Guid id)
+    public UserModel? GetElementById(Guid id)
     {
-        return _users.First(user => user.ID.Equals(id));
+        return _users.FirstOrDefault(user => user.ID.Equals(id));
     }
 
     public bool AddNewElement(object o)
