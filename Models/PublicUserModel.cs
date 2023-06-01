@@ -5,21 +5,34 @@ public class PublicUserModel
     public Guid ID { get; set; }
     public string Name { get; set; }
     public string Biography { get; set; }
-    public byte Age { get; set; }
+    public DateTime BirthDate { get; set; }
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ISet<string> Photos { get; set; }
     public ISet<string> Interests { get; set; }
 
-    public PublicUserModel(Guid id, string name, string biography, byte age, string location, Gender gender, ISet<string> photos, ISet<string> interests)
+    public PublicUserModel(string name, string biography, DateTime birthDate, string location, Gender gender, ISet<string> photos, ISet<string> interests)
     {
-        ID = id;
+        ID = Guid.NewGuid();
         Name = name;
         Biography = biography;
-        Age = age;
+        BirthDate = birthDate;
         Location = location;
         Gender = gender;
         Photos = photos;
         Interests = interests;
+    }
+
+    public int CalculateAge()
+    {
+        DateTime now = DateTime.Now;
+        int years = now.Year - BirthDate.Year;
+
+        if (BirthDate > now.AddYears(-years))
+        {
+            years--;
+        }
+
+        return years;
     }
 }

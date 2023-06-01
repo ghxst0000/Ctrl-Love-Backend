@@ -11,24 +11,23 @@ public class UserModel : PublicUserModel
     public ISet<Gender> DesiredGenders { get; set; }
 
     public UserModel (
-        Guid id, 
         string name, 
         string email,
         string password, 
         ISet<Guid> likes,
         ISet<Guid> dislikes, 
         string biography, 
-        byte age, 
+        DateTime birthDate, 
         DateTime created, 
         string location, 
         Gender gender,
         ISet<Gender> desiredGenders, 
         ISet<string> photos, 
         ISet<string> interests) : 
-        base(id, 
+        base(
             name, 
             biography, 
-            age, 
+            birthDate, 
             location,
             gender,
             photos, 
