@@ -37,10 +37,10 @@ public class UserService : IUserService
         List<UserModel> matchingUsers = allUsers.Where(user => !user.ID.Equals(userId) &&
                                                                activeUser.DesiredGenders.Contains(user.Gender) &&
                                                                user.DesiredGenders.Contains(activeUser.Gender) &&
-                                                               activeUser.AgeRange.Bottom >= user.CalculateAge() &&
-                                                               activeUser.AgeRange.Top <= user.CalculateAge() &&
-                                                               user.AgeRange.Bottom >= activeUser.CalculateAge() &&
-                                                               user.AgeRange.Top <= activeUser.CalculateAge()).ToList();
+                                                               activeUser.AgeRange.Bottom <= user.CalculateAge() &&
+                                                               activeUser.AgeRange.Top >= user.CalculateAge() &&
+                                                               user.AgeRange.Bottom <= activeUser.CalculateAge() &&
+                                                               user.AgeRange.Top >= activeUser.CalculateAge()).ToList();
         
         //TODO: maybe sort by location and intersts machings?
         return matchingUsers;
