@@ -63,9 +63,9 @@ public class UserRepository : IRepository<UserModel, Guid>
         throw new NotImplementedException();
     }
 
-    public bool DeleteElement(object o)
+    public bool DeleteElement(UserModel user)
     {
-        throw new NotImplementedException();
+        return _users.Remove(user);
     }
 
     public bool UpdateElement(object old, object updated)

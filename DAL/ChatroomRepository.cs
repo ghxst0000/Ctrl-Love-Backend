@@ -20,7 +20,7 @@ public class ChatroomRepository : IRepository<ChatRoomModel, Guid>
         throw new NotImplementedException();
     }
 
-    public bool DeleteElement(object o)
+    public bool DeleteElement(ChatRoomModel chatRoom)
     {
         throw new NotImplementedException();
     }

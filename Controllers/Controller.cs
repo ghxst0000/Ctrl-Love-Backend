@@ -55,5 +55,12 @@ public class Controller : ControllerBase
         
     }
     
+    [HttpDelete("/users/{userId}")]
+    public IActionResult DeleteUserById(Guid userId)
+    {
+        return Ok(_userService.DeleteUserById(userId));
+        
+    }
+    
     
 }
