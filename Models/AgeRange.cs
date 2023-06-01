@@ -1,12 +1,12 @@
 namespace CtrlLove.Models;
 
-public class AgeRange
+public struct AgeRange
 {
     private const byte MinimumAge = 18;
     private const byte MaximumAge = 100;
-    
-    public byte Bottom { get; set; }
-    public byte Top { get; set; }
+
+    private byte Bottom { get; set; }
+    private byte Top { get; set; }
 
     public AgeRange(byte bottom, byte top)
     {
