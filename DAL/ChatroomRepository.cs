@@ -2,14 +2,30 @@
 
 namespace CtrlLove.DAL;
 
-public class ChatroomRepository : IChatroomRepository
+public class ChatroomRepository : IRepository<ChatRoomModel, Guid>
 {
-    public List<MessageModel> GetMessagesByChatroomId(string id)
+
+    public List<ChatRoomModel> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public List<ChatRoomModel> GetChatroomsByUserID(string userId)
+    public ChatRoomModel GetElementById(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool AddNewElement(object o)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DeleteElement(object o)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool UpdateElement(object old, object updated)
     {
         throw new NotImplementedException();
     }

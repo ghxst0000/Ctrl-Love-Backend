@@ -3,7 +3,7 @@ using CtrlLove.Service;
 
 namespace CtrlLove.DAL;
 
-public class UserRepository : IUserRepository
+public class UserRepository : IRepository<UserModel, Guid>
 {
     private List<UserModel> _users = new List<UserModel>();
 
@@ -19,21 +19,25 @@ public class UserRepository : IUserRepository
         string[] LastNames = { "Smith", "Jones", "Big", "White", "Rodriguez" };
         Gender[] genders = Enum.GetValues<Gender>();
         
-        
-        
+        DateTime start = new DateTime(1965, 1, 1);
+        int range = (new DateTime(2005, 6, 2) - start).Days;
+
+
+
         for (int i = 0; i<20; i++)
         {
             string name = FirstNames[random.Next(FirstNames.Length)] + " " + LastNames[random.Next(LastNames.Length)];
             Gender gender = genders[random.Next(genders.Length)];
+            DateTime randomBirthDate =  start.AddDays(random.Next(range));
+            
             _users.Add(new UserModel(
-                    new Guid(),
-                    name,
+                name,
                     "xxx", 
                     "admin",
                     new HashSet<Guid>(),
                     new HashSet<Guid>(), 
                     "i like food", 
-                    (byte)random.Next(18, 50),
+                    randomBirthDate,
                     DateTime.Now, 
                     "bp",
                     gender, 
@@ -47,6 +51,26 @@ public class UserRepository : IUserRepository
     public List<UserModel> GetAll()
     {
         return _users;
+    }
+
+    public UserModel GetElementById(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool AddNewElement(object o)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DeleteElement(object o)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool UpdateElement(object old, object updated)
+    {
+        throw new NotImplementedException();
     }
 
     public UserModel GetUserById(string id)
