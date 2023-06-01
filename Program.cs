@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRepository<UserModel, Guid>, UserRepository>();
 builder.Services.AddSingleton<IRepository<ChatRoomModel, Guid>, ChatroomRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IChatService, ChatService>();
 
 var app = builder.Build();
 

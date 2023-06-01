@@ -55,7 +55,7 @@ public class UserRepository : IRepository<UserModel, Guid>
 
     public UserModel GetElementById(Guid id)
     {
-        throw new NotImplementedException();
+        return _users.First(user => user.ID.Equals(id));
     }
 
     public bool AddNewElement(object o)
