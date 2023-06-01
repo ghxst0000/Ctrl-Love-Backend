@@ -4,12 +4,17 @@ public class ChatRoomModel
 {
     public Guid Id { get; set; }
     public ISet<Guid> Participants { get; set; }
-    public List<MessageModel> messages { get; }
+    public List<MessageModel> Messages { get; }
 
     public ChatRoomModel(Guid id, ISet<Guid> participants)
     {
         Id = id;
         Participants = participants;
-        messages = new List<MessageModel>();
+        Messages = new List<MessageModel>();
+    }
+
+    public bool IncludesThisParticipant(Guid id)
+    {
+        return Participants.Contains(id);
     }
 }

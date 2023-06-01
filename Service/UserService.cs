@@ -1,4 +1,5 @@
 ﻿using CtrlLove.DAL;
+using CtrlLove.Exceptions;
 using CtrlLove.Models;
 
 namespace CtrlLove.Service;
@@ -19,13 +20,20 @@ public class UserService : IUserService
 
     public UserModel GetUserById(Guid id)
     {
-        return _repository.GetElementById(id);
+        UserModel? user = _repository.GetElementById(id);
+        if (user == null)
+        {
+            throw new IdNotFoundException($"The user with the Id {id} was not found.");
+        }
+
+        return user;
     }
 
     public List<UserModel> GetMatchesByUser(Guid userId)
     {
+        
         List<UserModel> allUsers = _repository.GetAll();
-        UserModel activeUser = _repository.GetElementById(userId);
+        UserModel activeUser = GetUserById(userId);
         List<UserModel> matchingUsers = allUsers.Where(user => !user.ID.Equals(userId) &&
                                                                activeUser.DesiredGenders.Contains(user.Gender) &&
                                                                user.DesiredGenders.Contains(activeUser.Gender) &&

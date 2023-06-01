@@ -1,4 +1,5 @@
 using CtrlLove.DAL;
+using CtrlLove.Exceptions;
 using CtrlLove.Models;
 using CtrlLove.Service;
 
@@ -15,6 +16,24 @@ builder.Services.AddSingleton<IRepository<ChatRoomModel, Guid>, ChatroomReposito
 builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next.Invoke();
+    }
+    catch (IdNotFoundException e)
+    {
+        context.Response.StatusCode = 404;
+        await context.Response.WriteAsync(e.Message);
+    }
+    catch (PermissionDeniedException e)
+    {
+        context.Response.StatusCode = 403;
+        await context.Response.WriteAsync(e.Message);
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
