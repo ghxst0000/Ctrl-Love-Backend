@@ -43,4 +43,9 @@ public class UserService : IUserService
     {
         return _repository.DeleteElement(GetUserById(userId));
     }
+
+    public bool AddNewUser(UserModel user)
+    {
+        return _repository.AddNewElement(user);
+    }
 }

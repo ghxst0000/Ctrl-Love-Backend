@@ -10,4 +10,5 @@ public interface IUserService
     UserModel? GetUserById(Guid id);
     List<UserModel> GetMatchesByUser(Guid userId);
     bool DeleteUserById(Guid userId);
+    bool AddNewUser(UserModel user);
 }

@@ -62,5 +62,10 @@ public class Controller : ControllerBase
         
     }
     
-    
+    [HttpPost("/users/")]
+    public IActionResult PostNewUser([FromBody] UserModel user)
+    {
+        return Ok(_userService.AddNewUser(user));
+        
+    }
 }

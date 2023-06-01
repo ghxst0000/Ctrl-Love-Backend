@@ -58,9 +58,10 @@ public class UserRepository : IRepository<UserModel, Guid>
         return _users.FirstOrDefault(user => user.Id.Equals(id));
     }
 
-    public bool AddNewElement(object o)
+    public bool AddNewElement(UserModel user)
     {
-        throw new NotImplementedException();
+         _users.Add(user);
+         return _users.Contains(user);
     }
 
     public bool DeleteElement(UserModel user)
