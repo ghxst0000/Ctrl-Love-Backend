@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace CtrlLove.Models;
 
 public class UserModel : PublicUserModel
@@ -39,6 +41,18 @@ public class UserModel : PublicUserModel
         Dislikes = dislikes;
         Created = created;
         DesiredGenders = desiredGenders;
+    }
+
+    [JsonConstructor]
+    public UserModel(string name, string email, string password)
+    : base(name, "i luv food",new DateTime(),"",Gender.Female,new HashSet<string>(),new HashSet<string>())
+    {
+        Email = email;
+        Password = password;
+        Likes = new HashSet<Guid>();
+        Dislikes = new HashSet<Guid>();
+        Created = DateTime.Now;
+        DesiredGenders = new HashSet<Gender>();
     }
     
     public bool IsMatch(UserModel user)
