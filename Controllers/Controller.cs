@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CtrlLove.Controllers;
 
-[ApiController]
-[Route("/")]
+[ApiController, Route("/api/")]
 
 public class Controller : ControllerBase
 {
@@ -22,47 +21,47 @@ public class Controller : ControllerBase
     
     
 
-    [HttpGet("/users")]
+    [HttpGet("users")]
     public IActionResult ShowAllUsers()
     {
         return Ok(_userService.GetAllUsers());
     }
     
-    [HttpGet("/users/{userId}/chatrooms/{chatroomId}/messages")]
+    [HttpGet("users/{userId}/chatrooms/{chatroomId}/messages")]
     public IActionResult ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
     {
         _userService.GetUserById(userId);
         return Ok(_chatService.GetMessagesByChatroomId(chatroomId, userId));
     }
     
-    [HttpGet("/users/{userId}/chatrooms")]
+    [HttpGet("users/{userId}/chatrooms")]
     public IActionResult ShowChatroomsByUser(Guid userId)
     {
         _userService.GetUserById(userId);
         return Ok(_chatService.GetChatroomsByUserId(userId));
     }
     
-    [HttpGet("/users/{userId}/matches")]
+    [HttpGet("users/{userId}/matches")]
     public IActionResult ShowMatchesByUser(Guid userId)
     {
         return Ok(_userService.GetMatchesByUser(userId));
     }
 
-    [HttpGet("/users/{userId}")]
+    [HttpGet("users/{userId}")]
     public IActionResult ShowUserById(Guid userId)
     {
         return Ok(_userService.GetUserById(userId));
         
     }
     
-    [HttpDelete("/users/{userId}")]
+    [HttpDelete("users/{userId}")]
     public IActionResult DeleteUserById(Guid userId)
     {
         return Ok(_userService.DeleteUserById(userId));
         
     }
     
-    [HttpPost("/users/")]
+    [HttpPost("users/")]
     public IActionResult PostNewUser([FromBody] UserModel user)
     {
         return Ok(_userService.AddNewUser(user));

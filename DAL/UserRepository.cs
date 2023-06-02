@@ -42,9 +42,9 @@ public class UserRepository : IRepository<UserModel, Guid>
                     "bp",
                     gender, 
                     new HashSet<Gender>() { genders[random.Next(genders.Length)] },
-                    new HashSet<string>(),
-                    new HashSet<string>()
-                    ));
+                new HashSet<string>(){"https://w7.pngwing.com/pngs/345/350/png-transparent-spider-man-drawing-internet-meme-know-your-meme-spiderman-comics-leaf-hand-thumbnail.png"},
+                new HashSet<string>(){"Party", "Coding", "Sports"}
+            ));
         }
     }
 

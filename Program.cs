@@ -15,8 +15,18 @@ builder.Services.AddSingleton<IRepository<UserModel, Guid>, UserRepository>();
 builder.Services.AddSingleton<IRepository<ChatRoomModel, Guid>, ChatroomRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IChatService, ChatService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
+app.UseCors("AllowOrigin");
 
 app.Use(async (context, next) =>
 {
@@ -44,6 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 
