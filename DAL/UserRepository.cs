@@ -31,7 +31,7 @@ public class UserRepository : IRepository<UserModel, Guid>
             DateTime randomBirthDate =  start.AddDays(random.Next(range));
             
             _users.Add(new UserModel(
-                name,
+                    name,
                     "xxx", 
                     "admin",
                     new HashSet<Guid>(),
