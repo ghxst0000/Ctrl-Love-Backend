@@ -1,7 +1,12 @@
-namespace CtrlLove.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace CtrlLove.Models;
+[Table("chatroom")]
 public class ChatRoomModel
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     public ISet<Guid> Participants { get; set; }
     public List<MessageModel> Messages { get; }
