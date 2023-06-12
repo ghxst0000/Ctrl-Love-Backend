@@ -16,7 +16,7 @@ public class ChatService : IChatService
 
     public async Task<List<MessageModel>> GetMessagesByChatroomId(Guid roomId, Guid userId)
     {
-        ChatRoomModel room = GetChatRoomById(roomId);
+        ChatRoomModel room = await GetChatRoomById(roomId);
         if (room.IncludesThisParticipant(userId))
         {
             return GetChatRoomById(roomId).Messages;
@@ -28,7 +28,7 @@ public class ChatService : IChatService
 
     }
 
-    public List<ChatRoomModel> GetChatroomsByUserId(Guid userId)
+    public Task<List<ChatRoomModel>> GetChatroomsByUserId(Guid userId)
     {
         List<ChatRoomModel> allRooms = _context.ChatRoomModels.ToList();
         
@@ -36,7 +36,7 @@ public class ChatService : IChatService
 
     }
 
-    public ChatRoomModel GetChatRoomById(Guid roomId)
+    public Task<ChatRoomModel> GetChatRoomById(Guid roomId)
     {
         ChatRoomModel? room = _repository.GetElementById(roomId);
         if (room == null)
