@@ -1,26 +1,28 @@
-﻿using CtrlLove.DAL;
+﻿
 using CtrlLove.Exceptions;
 using CtrlLove.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CtrlLove.Service;
 
 public class UserService : IUserService
 {
-    private readonly IRepository<UserModel, Guid> _repository;
+    private CtrlLoveContext _context { get; set; }
 
-    public UserService(IRepository<UserModel, Guid> repository)
+    public UserService(CtrlLoveContext context)
     {
-        _repository = repository;
+        _context = context;
     }
 
-    public List<UserModel> GetAllUsers()
+    public async Task<List<UserModel>> GetAllUsers()
     {
-        return _repository.GetAll();
+        return await _context.UserModel.ToListAsync();
     }
 
-    public UserModel GetUserById(Guid id)
+    public async Task<UserModel> GetUserById(Guid id)
     {
-        UserModel? user = _repository.GetElementById(id);
+        UserModel? user = await _context.UserModel.FindAsync(id);
         if (user == null)
         {
             throw new IdNotFoundException($"The user with the Id {id} was not found.");
@@ -29,23 +31,28 @@ public class UserService : IUserService
         return user;
     }
 
-    public List<UserModel> GetMatchesByUser(Guid userId)
+    public async Task<List<UserModel>> GetMatchesByUser(Guid userId)
     {
-        List<UserModel> allUsers = _repository.GetAll();
-        UserModel activeUser = GetUserById(userId);
+        List<UserModel> allUsers = await _context.UserModel.ToListAsync();
+        UserModel activeUser = await GetUserById(userId);
         List<UserModel> matchingUsers = allUsers.Where(user => user.IsMatch(activeUser)).ToList();
         
         //TODO: maybe sort by location and intersts machings?
         return matchingUsers;
     }
 
-    public bool DeleteUserById(Guid userId)
+    public async Task<bool> DeleteUserById(Guid userId)
     {
-        return _repository.DeleteElement(GetUserById(userId));
+        UserModel user = await GetUserById(userId);
+        EntityEntry<UserModel> response = _context.UserModel.Remove(user);
+        await _context.SaveChangesAsync();
+        return !response.Equals(null);
     }
 
-    public bool AddNewUser(UserModel user)
+    public async Task<UserModel> AddNewUser(UserModel user)
     {
-        return _repository.AddNewElement(user);
+        _context.UserModel.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 }
