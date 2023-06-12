@@ -7,14 +7,14 @@ namespace CtrlLove.Service;
 
 public class ChatService : IChatService
 {
-    private readonly IRepository<ChatRoomModel, Guid> _repository;
+    private CtrlLoveContext _context { get; set; }
 
-    public ChatService(IRepository<ChatRoomModel, Guid> repository)
+    public ChatService(CtrlLoveContext context)
     {
-        _repository = repository;
+        _context = context;
     }
 
-    public List<MessageModel> GetMessagesByChatroomId(Guid roomId, Guid userId)
+    public async Task<List<MessageModel>> GetMessagesByChatroomId(Guid roomId, Guid userId)
     {
         ChatRoomModel room = GetChatRoomById(roomId);
         if (room.IncludesThisParticipant(userId))
@@ -30,7 +30,7 @@ public class ChatService : IChatService
 
     public List<ChatRoomModel> GetChatroomsByUserId(Guid userId)
     {
-        List<ChatRoomModel> allRooms = _repository.GetAll();
+        List<ChatRoomModel> allRooms = _context.ChatRoomModels.ToList();
         
         return allRooms.Where(room => room.Participants.Contains(userId)).ToList();
 
