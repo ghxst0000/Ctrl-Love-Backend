@@ -7,13 +7,17 @@ public class UserModel : PublicUserModel
 {
     public string Email { get; set; }
     public string Password { get; set; }
-    public ISet<Guid> Likes { get; set; }
-    public ISet<Guid> Dislikes { get; set; }
+    public List<Guid> Likes { get; set; }
+    public List<Guid> Dislikes { get; set; }
     public DateTime Created { get; set; }
-    public AgeRange AgeRange { get; set; } = new AgeRange();
-    public ISet<Gender> DesiredGenders { get; set; }
+    public int MinimumAge { get; set; }
+    public int MaximumAge { get; set; }
+    public List<Gender> DesiredGenders { get; set; }
 
-    
+    public bool IsInRange(int number)
+    {
+        return number <= MaximumAge && number >= MinimumAge;
+    }
     
     public bool IsMatch(UserModel user)
     {
@@ -32,12 +36,12 @@ public class UserModel : PublicUserModel
             return false;
         }
 
-        if (!AgeRange.IsInRange(user.CalculateAge()))
+        if (!IsInRange(user.CalculateAge()))
         {
             return false;
         }
 
-        if (!user.AgeRange.IsInRange(CalculateAge()))
+        if (!user.IsInRange(CalculateAge()))
         {
             return false;
         }

@@ -13,8 +13,8 @@ public class PublicUserModel
     private DateTime BirthDate { get; set; }
     public string Location { get; set; }
     public Gender Gender { get; set; }
-    public ISet<string> Photos { get; set; }
-    public ISet<string> Interests { get; set; }
+    public ICollection<Photo> Photos { get; set; }
+    public List<Interest> Interests { get; set; }
     
     public int CalculateAge()
     {

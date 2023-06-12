@@ -32,7 +32,7 @@ public class ChatService : IChatService
     {
         List<ChatRoomModel> allRooms = _context.ChatRoomModels.ToList();
         
-        return allRooms.Where(room => room.Participants.Contains(userId)).ToList();
+        return allRooms.Where(room => room.Participants.Any(p => p.Id.Equals(userId))).ToList();
 
     }
 
