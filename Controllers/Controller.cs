@@ -22,7 +22,7 @@ public class Controller : ControllerBase
     
 
     [HttpGet("/users")]
-    public Task<List<UserModel>> ShowAllUsers()
+    public async Task<List<UserModel>> ShowAllUsers()
     {
         return await _userService.GetAllUsers();
     }
@@ -62,7 +62,7 @@ public class Controller : ControllerBase
     }
     
     [HttpPost("/users/")]
-    public async Task PostNewUser([FromBody] UserModel user)
+    public async Task<UserModel> PostNewUser([FromBody] UserModel user)
     {
         return await _userService.AddNewUser(user);
         
