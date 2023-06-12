@@ -1,5 +1,4 @@
-﻿using CtrlLove.DAL;
-using CtrlLove.Exceptions;
+﻿using CtrlLove.Exceptions;
 using CtrlLove.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +15,10 @@ public class ChatService : IChatService
 
     public async Task<List<MessageModel>> GetMessagesByChatroomId(Guid roomId, Guid userId)
     {
-        ChatRoomModel room = GetChatRoomById(roomId);
+        ChatRoomModel room = await GetChatRoomById(roomId);
         if (room.IncludesThisParticipant(userId))
         {
-            return GetChatRoomById(roomId).Messages;
+            return room.Messages;
         }
 
         throw new PermissionDeniedException(
@@ -28,7 +27,8 @@ public class ChatService : IChatService
 
     }
 
-    public List<ChatRoomModel> GetChatroomsByUserId(Guid userId)
+
+    public async Task<List<ChatRoomModel>> GetChatroomsByUserId(Guid userId)
     {
         List<ChatRoomModel> allRooms = _context.ChatRoomModels.ToList();
         
@@ -36,9 +36,10 @@ public class ChatService : IChatService
 
     }
 
-    public ChatRoomModel GetChatRoomById(Guid roomId)
+
+    public async Task<ChatRoomModel> GetChatRoomById(Guid roomId)
     {
-        ChatRoomModel? room = _repository.GetElementById(roomId);
+        var room = _context.ChatRoomModels.FirstOrDefault(model => model.Id.Equals(roomId));
         if (room == null)
         {
             throw new IdNotFoundException($"The chat room with the Id {roomId} was not found.");

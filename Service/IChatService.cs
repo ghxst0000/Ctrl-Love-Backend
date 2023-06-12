@@ -5,7 +5,7 @@ namespace CtrlLove.Service;
 
 public interface IChatService
 {
-    List<MessageModel>  GetMessagesByChatroomId(Guid roomId, Guid userId);
-    List<ChatRoomModel> GetChatroomsByUserId(Guid userId);
-    ChatRoomModel GetChatRoomById(Guid roomId);
+    Task<List<MessageModel>>  GetMessagesByChatroomId(Guid roomId, Guid userId);
+    Task<List<ChatRoomModel>> GetChatroomsByUserId(Guid userId);
+    Task<ChatRoomModel> GetChatRoomById(Guid roomId);
 }
