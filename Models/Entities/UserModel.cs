@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using CtrlLove.Models.DTOs;
 
 namespace CtrlLove.Models;
 public class UserModel
@@ -70,5 +72,11 @@ public class UserModel
         }
 
         return years;
+    }
+
+    public static explicit operator PublicUserDTO(UserModel user)
+    {
+        return new PublicUserDTO(user.Id, user.Name, user.Biography, user.BirthDate, user.Location,
+            user.Gender, user.Photos, user.Interests);
     }
 }
