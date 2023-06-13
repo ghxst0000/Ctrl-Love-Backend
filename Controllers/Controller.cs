@@ -1,5 +1,4 @@
-﻿using CtrlLove.DAL;
-using CtrlLove.Models;
+﻿using CtrlLove.Models;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -23,49 +22,49 @@ public class Controller : ControllerBase
     
 
     [HttpGet("/users")]
-    public IActionResult ShowAllUsers()
+    public async Task<List<UserModel>> ShowAllUsers()
     {
-        return Ok(_userService.GetAllUsers());
+        return await _userService.GetAllUsers();
     }
     
     [HttpGet("/users/{userId}/chatrooms/{chatroomId}/messages")]
-    public IActionResult ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
+    public async Task<List<MessageModel>> ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
     {
-        _userService.GetUserById(userId);
-        return Ok(_chatService.GetMessagesByChatroomId(chatroomId, userId));
+        await _userService.GetUserById(userId);
+        return await _chatService.GetMessagesByChatroomId(chatroomId, userId);
     }
     
     [HttpGet("/users/{userId}/chatrooms")]
-    public IActionResult ShowChatroomsByUser(Guid userId)
+    public async Task<List<ChatRoomModel>> ShowChatroomsByUser(Guid userId)
     {
-        _userService.GetUserById(userId);
-        return Ok(_chatService.GetChatroomsByUserId(userId));
+        await _userService.GetUserById(userId);
+        return await _chatService.GetChatroomsByUserId(userId);
     }
     
     [HttpGet("/users/{userId}/matches")]
-    public IActionResult ShowMatchesByUser(Guid userId)
+    public async Task<List<UserModel>> ShowMatchesByUser(Guid userId)
     {
-        return Ok(_userService.GetMatchesByUser(userId));
+        return await _userService.GetMatchesByUser(userId);
     }
 
     [HttpGet("/users/{userId}")]
-    public IActionResult ShowUserById(Guid userId)
+    public async Task<UserModel> ShowUserById(Guid userId)
     {
-        return Ok(_userService.GetUserById(userId));
+        return await _userService.GetUserById(userId);
         
     }
     
     [HttpDelete("/users/{userId}")]
-    public IActionResult DeleteUserById(Guid userId)
+    public async Task<bool> DeleteUserById(Guid userId)
     {
-        return Ok(_userService.DeleteUserById(userId));
+        return await _userService.DeleteUserById(userId);
         
     }
     
     [HttpPost("/users/")]
-    public IActionResult PostNewUser([FromBody] UserModel user)
+    public async Task<UserModel> PostNewUser([FromBody] UserModel user)
     {
-        return Ok(_userService.AddNewUser(user));
+        return await _userService.AddNewUser(user);
         
     }
 }

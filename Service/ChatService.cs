@@ -1,5 +1,4 @@
-﻿using CtrlLove.DAL;
-using CtrlLove.Exceptions;
+﻿using CtrlLove.Exceptions;
 using CtrlLove.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,19 +6,19 @@ namespace CtrlLove.Service;
 
 public class ChatService : IChatService
 {
-    private readonly IRepository<ChatRoomModel, Guid> _repository;
+    private CtrlLoveContext _context { get; set; }
 
-    public ChatService(IRepository<ChatRoomModel, Guid> repository)
+    public ChatService(CtrlLoveContext context)
     {
-        _repository = repository;
+        _context = context;
     }
 
-    public List<MessageModel> GetMessagesByChatroomId(Guid roomId, Guid userId)
+    public async Task<List<MessageModel>> GetMessagesByChatroomId(Guid roomId, Guid userId)
     {
-        ChatRoomModel room = GetChatRoomById(roomId);
+        ChatRoomModel room = await GetChatRoomById(roomId);
         if (room.IncludesThisParticipant(userId))
         {
-            return GetChatRoomById(roomId).Messages;
+            return room.Messages;
         }
 
         throw new PermissionDeniedException(
@@ -28,17 +27,19 @@ public class ChatService : IChatService
 
     }
 
-    public List<ChatRoomModel> GetChatroomsByUserId(Guid userId)
+
+    public async Task<List<ChatRoomModel>> GetChatroomsByUserId(Guid userId)
     {
-        List<ChatRoomModel> allRooms = _repository.GetAll();
+        List<ChatRoomModel> allRooms = _context.ChatRoomModels.ToList();
         
-        return allRooms.Where(room => room.Participants.Contains(userId)).ToList();
+        return allRooms.Where(room => room.Participants.Any(p => p.Id.Equals(userId))).ToList();
 
     }
 
-    public ChatRoomModel GetChatRoomById(Guid roomId)
+
+    public async Task<ChatRoomModel> GetChatRoomById(Guid roomId)
     {
-        ChatRoomModel? room = _repository.GetElementById(roomId);
+        var room = _context.ChatRoomModels.FirstOrDefault(model => model.Id.Equals(roomId));
         if (room == null)
         {
             throw new IdNotFoundException($"The chat room with the Id {roomId} was not found.");

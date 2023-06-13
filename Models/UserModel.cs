@@ -1,58 +1,22 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace CtrlLove.Models;
-
+[Table("private-user")]
 public class UserModel : PublicUserModel
 {
     public string Email { get; set; }
     public string Password { get; set; }
-    public ISet<Guid> Likes { get; set; }
-    public ISet<Guid> Dislikes { get; set; }
+    public List<Guid> Likes { get; set; }
+    public List<Guid> Dislikes { get; set; }
     public DateTime Created { get; set; }
-    public AgeRange AgeRange { get; set; } = new AgeRange();
-    public ISet<Gender> DesiredGenders { get; set; }
+    public int MinimumAge { get; set; }
+    public int MaximumAge { get; set; }
+    public List<Gender> DesiredGenders { get; set; }
 
-    public UserModel (
-        string name, 
-        string email,
-        string password, 
-        ISet<Guid> likes,
-        ISet<Guid> dislikes, 
-        string biography, 
-        DateTime birthDate, 
-        DateTime created, 
-        string location, 
-        Gender gender,
-        ISet<Gender> desiredGenders, 
-        ISet<string> photos, 
-        ISet<string> interests) : 
-        base(
-            name, 
-            biography, 
-            birthDate, 
-            location,
-            gender,
-            photos, 
-            interests)
+    public bool IsInRange(int number)
     {
-        Email = email;
-        Password = password;
-        Likes = likes;
-        Dislikes = dislikes;
-        Created = created;
-        DesiredGenders = desiredGenders;
-    }
-
-    [JsonConstructor]
-    public UserModel(string name, string email, string password)
-    : base(name, "i luv food",new DateTime(),"",Gender.Female,new HashSet<string>(),new HashSet<string>())
-    {
-        Email = email;
-        Password = password;
-        Likes = new HashSet<Guid>();
-        Dislikes = new HashSet<Guid>();
-        Created = DateTime.Now;
-        DesiredGenders = new HashSet<Gender>();
+        return number <= MaximumAge && number >= MinimumAge;
     }
     
     public bool IsMatch(UserModel user)
@@ -72,12 +36,12 @@ public class UserModel : PublicUserModel
             return false;
         }
 
-        if (!AgeRange.IsInRange(user.CalculateAge()))
+        if (!IsInRange(user.CalculateAge()))
         {
             return false;
         }
 
-        if (!user.AgeRange.IsInRange(CalculateAge()))
+        if (!user.IsInRange(CalculateAge()))
         {
             return false;
         }
