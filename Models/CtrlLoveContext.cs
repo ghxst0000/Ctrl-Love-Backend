@@ -11,7 +11,6 @@ public class CtrlLoveContext : DbContext
 
     public DbSet<ChatRoomModel> ChatRoomModels { get; set; }
     public DbSet<MessageModel> MessageModels { get; set; }
-    public DbSet<PublicUserModel> PublicUserModel { get; set; }
     public DbSet<UserModel> UserModel { get; set; }
     public DbSet<Photo> Photos { get; set; }
 }

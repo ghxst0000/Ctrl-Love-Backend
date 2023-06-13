@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CtrlLove.Models;
-[Table("chatroom")]
 public class ChatRoomModel
 {
     [Key]
