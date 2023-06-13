@@ -13,7 +13,7 @@ public class UserModel
     public DateTime BirthDate { get; set; }
     public string Location { get; set; }
     public Gender Gender { get; set; }
-    public ICollection<Photo> Photos { get; set; }
+    public ICollection<PhotoModel> Photos { get; set; }
     public List<Interest> Interests { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
