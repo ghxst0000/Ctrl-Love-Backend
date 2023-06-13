@@ -10,7 +10,7 @@ public class PublicUserModel
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Biography { get; set; }
-    private DateTime BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ICollection<Photo> Photos { get; set; }
