@@ -79,4 +79,11 @@ public class UserModel
         return new PublicUserDTO(user.Id, user.Name, user.Biography, user.BirthDate, user.Location,
             user.Gender, user.Photos, user.Interests);
     }
+    
+    public static explicit operator PrivateUserDTO(UserModel user)
+    {
+        return new PrivateUserDTO(user.Id, user.Name, user.Biography, user.BirthDate, user.Location,
+            user.Gender, user.Photos, user.Interests, user.Email, user.Likes,user.Dislikes,user.Created,user.MinimumAge,
+            user.MaximumAge, user.DesiredGenders);
+    }
 }
