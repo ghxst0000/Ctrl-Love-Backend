@@ -1,4 +1,5 @@
 
+using System.Text.Json.Serialization;
 using CtrlLove.Exceptions;
 using CtrlLove.Models;
 using CtrlLove.Service;
@@ -23,6 +24,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddDbContext<CtrlLoveContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers()
+    .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 

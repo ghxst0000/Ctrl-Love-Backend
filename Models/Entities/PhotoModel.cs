@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CtrlLove.Models;
 [Table("photos")]
-public class Photo
+public class PhotoModel
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

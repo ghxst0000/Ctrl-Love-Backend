@@ -3,6 +3,7 @@ using System;
 using CtrlLove.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CtrlLove.Migrations
 {
     [DbContext(typeof(CtrlLoveContext))]
-    partial class CtrlLoveContextModelSnapshot : ModelSnapshot
+    [Migration("20230613122219_LikesAndDislikesTables2")]
+    partial class LikesAndDislikesTables2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,18 +53,22 @@ namespace CtrlLove.Migrations
 
             modelBuilder.Entity("CtrlLove.Models.LikeModel", b =>
                 {
-                    b.Property<Guid>("LikedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("LikedUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(2);
+                    b.Property<Guid>("UserLikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("Liked")
                         .HasColumnType("boolean");
 
-                    b.HasKey("LikedByUserId", "LikedUserId");
+                    b.Property<Guid>("LikedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LikedUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserLikeId");
+
+                    b.HasIndex("LikedByUserId");
 
                     b.HasIndex("LikedUserId");
 

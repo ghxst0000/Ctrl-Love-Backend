@@ -3,6 +3,7 @@ using System;
 using CtrlLove.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,31 +12,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CtrlLove.Migrations
 {
     [DbContext(typeof(CtrlLoveContext))]
-    partial class CtrlLoveContextModelSnapshot : ModelSnapshot
+    [Migration("20230613094144_UpdateUserModel")]
+    partial class UpdateUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ChatRoomModelUserModel", b =>
-                {
-                    b.Property<Guid>("ChatRoomModelId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ParticipantsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ChatRoomModelId", "ParticipantsId");
-
-                    b.HasIndex("ParticipantsId");
-
-                    b.ToTable("ChatRoomModelUserModel");
-                });
 
             modelBuilder.Entity("CtrlLove.Models.ChatRoomModel", b =>
                 {
@@ -46,26 +33,6 @@ namespace CtrlLove.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChatRoomModels");
-                });
-
-            modelBuilder.Entity("CtrlLove.Models.LikeModel", b =>
-                {
-                    b.Property<Guid>("LikedByUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("LikedUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnOrder(2);
-
-                    b.Property<bool>("Liked")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("LikedByUserId", "LikedUserId");
-
-                    b.HasIndex("LikedUserId");
-
-                    b.ToTable("LikeModel");
                 });
 
             modelBuilder.Entity("CtrlLove.Models.MessageModel", b =>
@@ -129,6 +96,9 @@ namespace CtrlLove.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("ChatRoomModelId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -167,41 +137,24 @@ namespace CtrlLove.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChatRoomModelId");
+
                     b.ToTable("UserModel");
                 });
 
-            modelBuilder.Entity("ChatRoomModelUserModel", b =>
+            modelBuilder.Entity("UserModelUserModel", b =>
                 {
-                    b.HasOne("CtrlLove.Models.ChatRoomModel", null)
-                        .WithMany()
-                        .HasForeignKey("ChatRoomModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("DislikesId")
+                        .HasColumnType("uuid");
 
-                    b.HasOne("CtrlLove.Models.UserModel", null)
-                        .WithMany()
-                        .HasForeignKey("ParticipantsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.Property<Guid>("LikesId")
+                        .HasColumnType("uuid");
 
-            modelBuilder.Entity("CtrlLove.Models.LikeModel", b =>
-                {
-                    b.HasOne("CtrlLove.Models.UserModel", "LikedByUser")
-                        .WithMany("Likes")
-                        .HasForeignKey("LikedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasKey("DislikesId", "LikesId");
 
-                    b.HasOne("CtrlLove.Models.UserModel", "LikedUser")
-                        .WithMany()
-                        .HasForeignKey("LikedUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasIndex("LikesId");
 
-                    b.Navigation("LikedByUser");
-
-                    b.Navigation("LikedUser");
+                    b.ToTable("UserModelUserModel");
                 });
 
             modelBuilder.Entity("CtrlLove.Models.MessageModel", b =>
@@ -230,15 +183,37 @@ namespace CtrlLove.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("CtrlLove.Models.UserModel", b =>
+                {
+                    b.HasOne("CtrlLove.Models.ChatRoomModel", null)
+                        .WithMany("Participants")
+                        .HasForeignKey("ChatRoomModelId");
+                });
+
+            modelBuilder.Entity("UserModelUserModel", b =>
+                {
+                    b.HasOne("CtrlLove.Models.UserModel", null)
+                        .WithMany()
+                        .HasForeignKey("DislikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CtrlLove.Models.UserModel", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CtrlLove.Models.ChatRoomModel", b =>
                 {
                     b.Navigation("Messages");
+
+                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("CtrlLove.Models.UserModel", b =>
                 {
-                    b.Navigation("Likes");
-
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
