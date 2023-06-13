@@ -20,5 +20,20 @@ public class CtrlLoveContext : DbContext
             .HasMany(cr => cr.Participants)
             .WithMany();
 
+        modelBuilder.Entity<LikeModel>()
+            .HasKey(ul => new { ul.LikedByUserId, ul.LikedUserId });
+
+        modelBuilder.Entity<LikeModel>()
+            .HasOne(ul => ul.LikedByUser)
+            .WithMany(u => u.Likes)
+            .HasForeignKey(ul => ul.LikedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<LikeModel>()
+            .HasOne(ul => ul.LikedUser)
+            .WithMany()
+            .HasForeignKey(ul => ul.LikedUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

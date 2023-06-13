@@ -19,8 +19,7 @@ public class UserModel
     public List<Interest> Interests { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public List<UserModel> Likes { get; set; }
-    public List<UserModel> Dislikes { get; set; }
+    public virtual List<LikeModel> Likes { get; } = new List<LikeModel>();
     public DateTime Created { get; set; }
     public int MinimumAge { get; set; }
     public int MaximumAge { get; set; }
@@ -80,10 +79,10 @@ public class UserModel
             user.Gender, user.Photos, user.Interests);
     }
     
-    public static explicit operator PrivateUserDTO(UserModel user)
+    /*public static explicit operator PrivateUserDTO(UserModel user)
     {
         return new PrivateUserDTO(user.Id, user.Name, user.Biography, user.BirthDate, user.Location,
-            user.Gender, user.Photos, user.Interests, user.Email, user.Likes.Select(u=>u.Id).ToList(),
-            user.Dislikes.Select(u=>u.Id).ToList(), user.Created, user.MinimumAge, user.MaximumAge, user.DesiredGenders);
-    }
+            user.Gender, user.Photos, user.Interests, user.Email, user.Likes.Select(u=>u.LikedByUserId).ToList(),
+            user.Dislikes.Select(u=>u.li).ToList(), user.Created, user.MinimumAge, user.MaximumAge, user.DesiredGenders);
+    }*/
 }
