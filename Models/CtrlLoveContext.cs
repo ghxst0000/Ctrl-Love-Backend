@@ -34,6 +34,10 @@ public class CtrlLoveContext : DbContext
             .WithMany()
             .HasForeignKey(ul => ul.LikedUserId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<UserModel>()
+            .HasMany(u => u.Interests)
+            .WithMany();
 
     }
 }

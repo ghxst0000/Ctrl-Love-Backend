@@ -9,7 +9,7 @@ public class PrivateUserDTO
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ICollection<PhotoModel> Photos { get; set; }
-    public List<Interest> Interests { get; set; }
+    public List<InterestModel> Interests { get; set; }
     public string Email { get; set; }
     public List<Guid> Likes { get; set; }
     public List<Guid> Dislikes { get; set; }
@@ -18,7 +18,7 @@ public class PrivateUserDTO
     public int MaximumAge { get; set; }
     public List<Gender> DesiredGenders { get; set; }
 
-    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<Interest> interests, string email, List<Guid> likes, List<Guid> dislikes, DateTime created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
+    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests, string email, List<Guid> likes, List<Guid> dislikes, DateTime created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
     {
         Id = id;
         Name = name;

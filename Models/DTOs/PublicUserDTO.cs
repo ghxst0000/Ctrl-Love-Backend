@@ -9,9 +9,9 @@ public class PublicUserDTO
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ICollection<PhotoModel> Photos { get; set; }
-    public List<Interest> Interests { get; set; }
+    public List<InterestModel> Interests { get; set; }
 
-    public PublicUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<Interest> interests)
+    public PublicUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests)
     {
         Id = id;
         Name = name;

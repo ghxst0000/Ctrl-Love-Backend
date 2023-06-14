@@ -16,7 +16,7 @@ public class UserModel
     public string Location { get; set; }
     public Gender Gender { get; set; }
     public ICollection<PhotoModel> Photos { get; set; }
-    public List<Interest> Interests { get; set; }
+    public List<InterestModel> Interests { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
     public virtual List<LikeModel> Likes { get; } = new List<LikeModel>();
