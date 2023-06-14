@@ -5,7 +5,7 @@ namespace CtrlLove.Models.DTOs;
 public class GenderDTO
 {
     public string Name { get; set; }
-    private int Value { get; set; }
+    public int Value { get; set; }
 
     public static List<GenderDTO> GetAllGenders()
     {

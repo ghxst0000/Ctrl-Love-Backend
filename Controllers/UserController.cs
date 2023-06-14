@@ -72,6 +72,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
+        Console.WriteLine(user.ToString());
         return await _userService.AddNewUser(user);
         
     }

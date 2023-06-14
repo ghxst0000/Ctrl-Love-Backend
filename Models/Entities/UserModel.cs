@@ -13,25 +13,26 @@ public class UserModel
     public Guid Id { get; set; }
     [Required]
     public string Name { get; set; }
-    public string Biography { get; set; }
+    
+    public string? Biography { get; set; }
     [Required]
     public DateTime BirthDate { get; set; }
-    public string Location { get; set; }
+    public string? Location { get; set; }
     [Required]
     public Gender Gender { get; set; }
-    public ICollection<PhotoModel> Photos { get; set; }
-    public List<InterestModel> Interests { get; set; }
+    public ICollection<PhotoModel>? Photos { get; set; }
+    public List<InterestModel>? Interests { get; set; }
     [Required]
     public string Email { get; set; }
     [Required]
     public string Password { get; set; }
-    public virtual List<LikeModel> Likes { get; } = new List<LikeModel>();
-    public DateTime Created { get; set; }
+    public virtual List<LikeModel>? Likes { get; } = new List<LikeModel>();
+    public DateTime? Created { get; set; }
     [DefaultValue(18)]
     public int MinimumAge { get; set; }
     [DefaultValue(200)]
     public int MaximumAge { get; set; }
-    public List<Gender> DesiredGenders { get; set; }
+    public List<Gender>? DesiredGenders { get; set; }
 
     public bool IsInRange(int number)
     {

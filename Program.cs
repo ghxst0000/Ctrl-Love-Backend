@@ -32,7 +32,7 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
-app.Use(async (context, next) =>
+/*app.Use(async (context, next) =>
 {
     try
     {
@@ -48,7 +48,7 @@ app.Use(async (context, next) =>
         context.Response.StatusCode = 403;
         await context.Response.WriteAsync(e.Message);
     }
-});
+});*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
