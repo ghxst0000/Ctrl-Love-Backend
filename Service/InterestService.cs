@@ -5,7 +5,7 @@ namespace CtrlLove.Service;
 
 public class InterestService : CtrlLoveService ,IInterestService
 {
-    protected InterestService(CtrlLoveContext context) : base(context)
+    public InterestService(CtrlLoveContext context) : base(context)
     {
     }
     

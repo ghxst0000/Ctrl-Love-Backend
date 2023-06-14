@@ -9,7 +9,7 @@ namespace CtrlLove.Controllers;
 public class GenderController : ControllerBase
 {
     [HttpGet]
-    public Task<List<GenderDTO>> GetAllGenders()
+    public List<GenderDTO> GetAllGenders()
     {
         return GenderDTO.GetAllGenders();
     }
