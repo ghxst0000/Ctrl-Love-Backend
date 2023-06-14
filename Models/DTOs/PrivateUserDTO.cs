@@ -11,14 +11,14 @@ public class PrivateUserDTO
     public ICollection<PhotoModel> Photos { get; set; }
     public List<InterestModel> Interests { get; set; }
     public string Email { get; set; }
-    public List<Guid> Likes { get; set; }
-    public List<Guid> Dislikes { get; set; }
+    public List<LikeModel> Likes { get; set; }
+    public List<LikeModel> Dislikes { get; set; }
     public DateTime Created { get; set; }
     public int MinimumAge { get; set; }
     public int MaximumAge { get; set; }
     public List<Gender> DesiredGenders { get; set; }
 
-    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests, string email, List<Guid> likes, List<Guid> dislikes, DateTime created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
+    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests, string email, List<LikeModel> likes, DateTime created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
     {
         Id = id;
         Name = name;
@@ -29,11 +29,13 @@ public class PrivateUserDTO
         Photos = photos;
         Interests = interests;
         Email = email;
-        Likes = likes;
-        Dislikes = dislikes;
+        Likes = likes.Where(like=>like.Liked).ToList();
+        Dislikes = likes.Where(like=>!like.Liked).ToList();
         Created = created;
         MinimumAge = minimumAge;
         MaximumAge = maximumAge;
         DesiredGenders = desiredGenders;
     }
+    
+    
 }

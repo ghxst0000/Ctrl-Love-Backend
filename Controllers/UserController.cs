@@ -1,4 +1,5 @@
 ﻿using CtrlLove.Models;
+using CtrlLove.Models.DTOs;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +23,9 @@ public class UserController : ControllerBase
     
 
     [HttpGet]
-    public async Task<List<UserModel>> ShowAllUsers()
+    public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        return await _userService.GetAllUsers();
+        return (await _userService.GetAllUsers()).Select(u => (PublicUserDTO)u).ToList();
     }
     
     [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
