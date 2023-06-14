@@ -22,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IChatService, ChatService>();
+builder.Services.AddTransient<IInterestService, InterestService>();
 builder.Services.AddDbContext<CtrlLoveContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 

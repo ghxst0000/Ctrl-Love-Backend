@@ -1,3 +1,4 @@
+using CtrlLove.Models;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +9,34 @@ namespace CtrlLove.Controllers;
 
 public class InterestController :  ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IInterestService _interestService;
 
-    public InterestController(IUserService userService)
+    public InterestController(IInterestService interestService)
     {
-        _userService = userService;
+        _interestService = interestService;
+    }
+
+    [HttpGet]
+    public async Task<List<InterestModel>> GetAllInterests()
+    {
+        return await _interestService.GetAllInterest();
+    }
+
+    [HttpPost]
+    public async Task<InterestModel> AddInterest([FromBody] string interest)
+    {
+        return await _interestService.AddInterest(interest);
+    }
+
+    [HttpPost("/add/{userId:Guid}")]
+    public async Task<List<InterestModel>> AddInterestToUser(Guid userId, [FromBody] Guid interestId)
+    {
+        return await _interestService.AddInterestToUser(interestId, userId);
     }
     
-    
+    [HttpDelete("/remove/{userId:Guid}")]
+    public async Task<List<InterestModel>> RemoveInterestFromUser(Guid userId, [FromBody] Guid interestId)
+    {
+        return await _interestService.RemoveInterestFromUser(interestId, userId);
+    }
 }
