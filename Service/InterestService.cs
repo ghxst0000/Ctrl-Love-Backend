@@ -27,13 +27,17 @@ public class InterestService : CtrlLoveService ,IInterestService
         var interest = FindEntityById<InterestModel>(interestId).Result;
         var userInterests = FindEntityById<UserModel>(userId).Result.Interests;
         userInterests.Add(interest);
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return userInterests;
     }
 
     public async Task<List<InterestModel>> RemoveInterestFromUser(Guid interestId, Guid userId)
     {
-        throw new NotImplementedException();
+        var interest = FindEntityById<InterestModel>(interestId).Result;
+        var userInterests = FindEntityById<UserModel>(userId).Result.Interests;
+        userInterests.Remove(interest);
+        await _context.SaveChangesAsync();
+        return userInterests;
     }
 
     
