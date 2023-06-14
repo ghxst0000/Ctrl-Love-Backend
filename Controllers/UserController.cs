@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        return (await _userService.GetAllUsers()).Select(u => (PublicUserDTO)u).ToList();
+        return (await _userService.GetAllUsers()).Cast<PublicUserDTO>().ToList();
     }
     
     [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
@@ -43,16 +43,23 @@ public class UserController : ControllerBase
     }
     
     [HttpGet("/{userId}/matches")]
-    public async Task<List<UserModel>> ShowMatchesByUser(Guid userId)
+    public async Task<List<PublicUserDTO>> ShowMatchesByUser(Guid userId)
     {
-        return await _userService.GetMatchesByUser(userId);
+        return (await _userService.GetMatchesByUser(userId)).Cast<PublicUserDTO>().ToList();;
     }
 
     [HttpGet("/{userId}")]
-    public async Task<UserModel> ShowUserById(Guid userId)
+    public async Task<PublicUserDTO> ShowUserById(Guid userId)
     {
-        return await _userService.GetUserById(userId);
-        
+        return (await _userService.GetUserById(userId));
+
+    }
+    
+    [HttpGet("/my-profile/{userId}")]
+    public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
+    {
+        return (await _userService.GetUserById(userId));
+
     }
     
     [HttpDelete("/{userId}")]
@@ -63,7 +70,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<UserModel> PostNewUser([FromBody] UserModel user)
+    public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
         return await _userService.AddNewUser(user);
         
