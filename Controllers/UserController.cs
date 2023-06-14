@@ -1,4 +1,5 @@
 ﻿using CtrlLove.Models;
+using CtrlLove.Models.DTOs;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -6,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace CtrlLove.Controllers;
 
 [ApiController]
-[Route("/")]
+[Route("/api/v1/users")]
 
-public class Controller : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IChatService _chatService;
 
-    public Controller(IUserService userService, IChatService chatService)
+    public UserController(IUserService userService, IChatService chatService)
     {
         _userService = userService;
         _chatService = chatService;
@@ -21,48 +22,55 @@ public class Controller : ControllerBase
     
     
 
-    [HttpGet("/users")]
-    public async Task<List<UserModel>> ShowAllUsers()
+    [HttpGet]
+    public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        return await _userService.GetAllUsers();
+        return (await _userService.GetAllUsers()).Cast<PublicUserDTO>().ToList();
     }
     
-    [HttpGet("/users/{userId}/chatrooms/{chatroomId}/messages")]
+    [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
     public async Task<List<MessageModel>> ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
     {
         await _userService.GetUserById(userId);
         return await _chatService.GetMessagesByChatroomId(chatroomId, userId);
     }
     
-    [HttpGet("/users/{userId}/chatrooms")]
+    [HttpGet("/{userId}/chatrooms")]
     public async Task<List<ChatRoomModel>> ShowChatroomsByUser(Guid userId)
     {
         await _userService.GetUserById(userId);
         return await _chatService.GetChatroomsByUserId(userId);
     }
     
-    [HttpGet("/users/{userId}/matches")]
-    public async Task<List<UserModel>> ShowMatchesByUser(Guid userId)
+    [HttpGet("/{userId}/matches")]
+    public async Task<List<PublicUserDTO>> ShowMatchesByUser(Guid userId)
     {
-        return await _userService.GetMatchesByUser(userId);
+        return (await _userService.GetMatchesByUser(userId)).Cast<PublicUserDTO>().ToList();;
     }
 
-    [HttpGet("/users/{userId}")]
-    public async Task<UserModel> ShowUserById(Guid userId)
+    [HttpGet("/{userId}")]
+    public async Task<PublicUserDTO> ShowUserById(Guid userId)
     {
-        return await _userService.GetUserById(userId);
-        
+        return (await _userService.GetUserById(userId));
+
     }
     
-    [HttpDelete("/users/{userId}")]
+    [HttpGet("/my-profile/{userId}")]
+    public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
+    {
+        return (await _userService.GetUserById(userId));
+
+    }
+    
+    [HttpDelete("/{userId}")]
     public async Task<bool> DeleteUserById(Guid userId)
     {
         return await _userService.DeleteUserById(userId);
         
     }
     
-    [HttpPost("/users/")]
-    public async Task<UserModel> PostNewUser([FromBody] UserModel user)
+    [HttpPost]
+    public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
         return await _userService.AddNewUser(user);
         
