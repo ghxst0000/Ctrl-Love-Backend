@@ -13,7 +13,8 @@ public class CtrlLoveContext : DbContext
     public DbSet<MessageModel> MessageModels { get; set; }
     public DbSet<UserModel> UserModel { get; set; }
     public DbSet<PhotoModel> Photos { get; set; }
-    
+    public DbSet<InterestModel> Interests { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ChatRoomModel>()
