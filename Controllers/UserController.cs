@@ -25,7 +25,9 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        return (await _userService.GetAllUsers()).Cast<PublicUserDTO>().ToList();
+        var users = await _userService.GetAllUsers();
+        var publicUsers = users.Select(user => (PublicUserDTO)user).ToList();
+        return publicUsers;
     }
     
     [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
