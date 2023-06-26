@@ -63,7 +63,10 @@ public class UserService : IUserService
 
     public async Task<UserModel> AddNewUser(UserModel user)
     {
-        
+        if (GetUserByEmail(user.Name) != null)
+        {
+            //TODO: fill after creating new exception
+        }
         _context.UserModel.Add(user);
         await _context.SaveChangesAsync();
         return user;

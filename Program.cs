@@ -47,6 +47,11 @@ app.Use(async (context, next) =>
         context.Response.StatusCode = 403;
         await context.Response.WriteAsync(e.Message);
     }
+    catch (EmailAlreadyInUseException e)
+    {
+        context.Response.StatusCode = 418;
+        await context.Response.WriteAsync(e.Message);
+    }
 });
 
 // Configure the HTTP request pipeline.
