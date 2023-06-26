@@ -65,7 +65,7 @@ public class UserService : IUserService
     {
         if (GetUserByEmail(user.Name) != null)
         {
-            //TODO: fill after creating new exception
+            throw new EmailAlreadyInUseException("This email address already in taken!");
         }
         _context.UserModel.Add(user);
         await _context.SaveChangesAsync();
