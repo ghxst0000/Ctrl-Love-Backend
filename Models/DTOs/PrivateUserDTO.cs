@@ -1,4 +1,7 @@
-﻿namespace CtrlLove.Models.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace CtrlLove.Models.DTOs;
 
 public class PrivateUserDTO
 {
@@ -13,12 +16,23 @@ public class PrivateUserDTO
     public string Email { get; set; }
     public List<LikeModel> Likes { get; set; }
     public List<LikeModel> Dislikes { get; set; }
-    public DateTime Created { get; set; }
+    public DateTime? Created { get; set; }
     public int MinimumAge { get; set; }
     public int MaximumAge { get; set; }
     public List<Gender> DesiredGenders { get; set; }
+    public string password { get; }
 
-    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests, string email, List<LikeModel> likes, DateTime created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
+    
+    [JsonConstructor]
+    public PrivateUserDTO(string name, DateTime birthDate, Gender gender, string email, string password)
+    {
+        this.Name = name;
+        this.BirthDate = birthDate;
+        this.Gender = gender;
+        this.Email = email;
+        this.password = password;
+    }
+    public PrivateUserDTO(Guid id, string name, string biography, DateTime birthDate, string location, Gender gender, ICollection<PhotoModel> photos, List<InterestModel> interests, string email, List<LikeModel> likes, DateTime? created, int minimumAge, int maximumAge, List<Gender> desiredGenders)
     {
         Id = id;
         Name = name;
@@ -36,6 +50,8 @@ public class PrivateUserDTO
         MaximumAge = maximumAge;
         DesiredGenders = desiredGenders;
     }
+
+    
     
     
 }

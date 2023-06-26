@@ -25,7 +25,9 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        return (await _userService.GetAllUsers()).Cast<PublicUserDTO>().ToList();
+        var users = await _userService.GetAllUsers();
+        var publicUsers = users.Select(user => (PublicUserDTO)user).ToList();
+        return publicUsers;
     }
     
     [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
@@ -72,6 +74,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
+        Console.WriteLine(user.ToString());
         return await _userService.AddNewUser(user);
         
     }
