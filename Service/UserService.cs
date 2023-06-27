@@ -1,6 +1,7 @@
 ﻿using CtrlLove.Exceptions;
 using CtrlLove.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -74,5 +75,15 @@ public class UserService : CtrlLoveService, IUserService
         _context.UserModel.Add(user);
         await _context.SaveChangesAsync();
         return user;
+    }
+
+    public async Task<bool> SignInUser(string detailsEmail, string detailsPassword)
+    {
+        var user = await GetUserByEmail(detailsEmail);
+        var passwordHasher = new PasswordHasher<UserModel>();
+
+        var result = passwordHasher.VerifyHashedPassword(user, user.Password, detailsPassword);
+
+        return result == PasswordVerificationResult.Success;
     }
 }
