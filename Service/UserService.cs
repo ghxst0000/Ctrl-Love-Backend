@@ -1,6 +1,6 @@
-﻿
-using CtrlLove.Exceptions;
+﻿using CtrlLove.Exceptions;
 using CtrlLove.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -66,6 +66,11 @@ public class UserService : CtrlLoveService, IUserService
         {
             throw new EmailAlreadyInUseException("This email address already in taken!");
         }
+
+        IPasswordHasher<UserModel> hasher = new PasswordHasher<UserModel>();
+        var hashedPassword = hasher.HashPassword(user, user.Password);
+        user.Password = hashedPassword;
+
         _context.UserModel.Add(user);
         await _context.SaveChangesAsync();
         return user;
