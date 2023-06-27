@@ -1,4 +1,5 @@
-﻿using CtrlLove.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using CtrlLove.Models;
 using CtrlLove.Models.DTOs;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -57,6 +58,13 @@ public class UserController : ControllerBase
 
     }
     
+    [HttpPost("/sign-in")]
+    public async Task<bool> SignInUser([FromBody] LoginCredentialsDTO details)
+    {
+        Console.WriteLine(details);
+        return await _userService.SignInUser(details.Email, details.Password);
+    }
+
     [HttpGet("/my-profile/{userId}")]
     public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
     {
