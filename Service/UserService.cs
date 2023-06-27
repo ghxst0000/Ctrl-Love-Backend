@@ -61,7 +61,8 @@ public class UserService : CtrlLoveService, IUserService
 
     public async Task<UserModel> AddNewUser(UserModel user)
     {
-        if (GetUserByEmail(user.Name) != null)
+        UserModel foundUser = await GetUserByEmail(user.Email);
+        if (foundUser != null)
         {
             throw new EmailAlreadyInUseException("This email address already in taken!");
         }
