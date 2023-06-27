@@ -12,7 +12,7 @@ public class CtrlLoveService
         _context = context;
     }
     
-    protected async Task<T> FindEntityById<T>(Guid id) where T : class
+    public async Task<T> FindEntityById<T>(Guid id) where T : class
     {
         T? entity = _context.Set<T>().Find(id);
 
