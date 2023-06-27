@@ -13,11 +13,13 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IChatService _chatService;
+    private readonly CtrlLoveService _ctrlLoveService;
 
-    public UserController(IUserService userService, IChatService chatService)
+    public UserController(IUserService userService, IChatService chatService, CtrlLoveService ctrlLoveService)
     {
         _userService = userService;
         _chatService = chatService;
+        _ctrlLoveService = ctrlLoveService;
     }
     
     
@@ -33,14 +35,12 @@ public class UserController : ControllerBase
     [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
     public async Task<List<MessageModel>> ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
     {
-        await _userService.GetUserById(userId);
         return await _chatService.GetMessagesByChatroomId(chatroomId, userId);
     }
     
     [HttpGet("/{userId}/chatrooms")]
     public async Task<List<ChatRoomModel>> ShowChatroomsByUser(Guid userId)
     {
-        await _userService.GetUserById(userId);
         return await _chatService.GetChatroomsByUserId(userId);
     }
     
@@ -53,14 +53,14 @@ public class UserController : ControllerBase
     [HttpGet("/{userId}")]
     public async Task<PublicUserDTO> ShowUserById(Guid userId)
     {
-        return (await _userService.GetUserById(userId));
+        return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
 
     }
     
     [HttpGet("/my-profile/{userId}")]
     public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
     {
-        return (await _userService.GetUserById(userId));
+        return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
 
     }
     
