@@ -22,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IChatService, ChatService>();
+builder.Services.AddTransient<CtrlLoveService>();
 builder.Services.AddTransient<IInterestService, InterestService>();
 builder.Services.AddDbContext<CtrlLoveContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -45,6 +46,11 @@ app.Use(async (context, next) =>
     catch (PermissionDeniedException e)
     {
         context.Response.StatusCode = 403;
+        await context.Response.WriteAsync(e.Message);
+    }
+    catch (EmailAlreadyInUseException e)
+    {
+        context.Response.StatusCode = 418;
         await context.Response.WriteAsync(e.Message);
     }
 });

@@ -18,6 +18,30 @@ public class UserService : CtrlLoveService, IUserService
         return await _context.UserModel.ToListAsync();
     }
 
+
+    public async Task<UserModel> GetUserById(Guid id)
+    {
+        UserModel? user = await _context.UserModel.FindAsync(id);
+        if (user == null)
+        {
+            throw new IdNotFoundException($"The user with the Id {id} was not found.");
+        }
+
+        return user;
+    }
+    
+    public async Task<UserModel> GetUserByName(string name)
+    {
+        UserModel? user = await _context.UserModel.FirstOrDefaultAsync(u=>u.Name==name);
+        return user;
+    }
+    
+    public async Task<UserModel> GetUserByEmail(string email)
+    {
+        UserModel? user = await _context.UserModel.FirstOrDefaultAsync(u=>u.Email==email);
+        return user;
+    }
+
     public async Task<List<UserModel>> GetMatchesByUser(Guid userId)
     {
         List<UserModel> allUsers = await _context.UserModel.ToListAsync();
@@ -38,6 +62,10 @@ public class UserService : CtrlLoveService, IUserService
 
     public async Task<UserModel> AddNewUser(UserModel user)
     {
+        if (GetUserByEmail(user.Name) != null)
+        {
+            throw new EmailAlreadyInUseException("This email address already in taken!");
+        }
         _context.UserModel.Add(user);
         await _context.SaveChangesAsync();
         return user;

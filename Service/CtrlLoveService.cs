@@ -7,7 +7,7 @@ public class CtrlLoveService
 {
     protected readonly CtrlLoveContext _context;
 
-    protected CtrlLoveService(CtrlLoveContext context)
+    public CtrlLoveService(CtrlLoveContext context)
     {
         _context = context;
     }
