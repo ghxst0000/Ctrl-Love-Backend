@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CtrlLove.Controllers;
 
 [ApiController]
-[Route("/api/v1/users")]
+[Route("/api/v1/users/")]
 
 public class UserController : ControllerBase
 {
@@ -33,46 +33,46 @@ public class UserController : ControllerBase
         return publicUsers;
     }
     
-    [HttpGet("/{userId}/chatrooms/{chatroomId}/messages")]
+    [HttpGet("{userId}/chatrooms/{chatroomId}/messages")]
     public async Task<List<MessageModel>> ShowMessagesByChatroomId(Guid userId, Guid chatroomId)
     {
         return await _chatService.GetMessagesByChatroomId(chatroomId, userId);
     }
     
-    [HttpGet("/{userId}/chatrooms")]
+    [HttpGet("{userId}/chatrooms")]
     public async Task<List<ChatRoomModel>> ShowChatroomsByUser(Guid userId)
     {
         return await _chatService.GetChatroomsByUserId(userId);
     }
     
-    [HttpGet("/{userId}/matches")]
+    [HttpGet("{userId}/matches")]
     public async Task<List<PublicUserDTO>> ShowMatchesByUser(Guid userId)
     {
         return (await _userService.GetMatchesByUser(userId)).Cast<PublicUserDTO>().ToList();;
     }
 
-    [HttpGet("/{userId}")]
+    [HttpGet("{userId}")]
     public async Task<PublicUserDTO> ShowUserById(Guid userId)
     {
         return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
 
     }
     
-    [HttpPost("/sign-in")]
+    [HttpPost("sign-in")]
     public async Task<bool> SignInUser([FromBody] LoginCredentialsDTO details)
     {
         Console.WriteLine(details);
         return await _userService.SignInUser(details.Email, details.Password);
     }
 
-    [HttpGet("/my-profile/{userId}")]
+    [HttpGet("my-profile/{userId}")]
     public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
     {
         return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
 
     }
     
-    [HttpDelete("/{userId}")]
+    [HttpDelete("{userId}")]
     public async Task<bool> DeleteUserById(Guid userId)
     {
         return await _userService.DeleteUserById(userId);

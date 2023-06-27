@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CtrlLove.Controllers;
 
 [ApiController]
-[Route("/api/v1/interests")]
+[Route("/api/v1/interests/")]
 
 public class InterestController :  ControllerBase
 {
@@ -28,13 +28,13 @@ public class InterestController :  ControllerBase
         return await _interestService.AddInterest(interest);
     }
 
-    [HttpPost("/add/{userId:Guid}")]
+    [HttpPost("add/{userId:Guid}")]
     public async Task<List<InterestModel>> AddInterestToUser(Guid userId, [FromBody] Guid interestId)
     {
         return await _interestService.AddInterestToUser(interestId, userId);
     }
     
-    [HttpDelete("/remove/{userId:Guid}")]
+    [HttpDelete("remove/{userId:Guid}")]
     public async Task<List<InterestModel>> RemoveInterestFromUser(Guid userId, [FromBody] Guid interestId)
     {
         return await _interestService.RemoveInterestFromUser(interestId, userId);
