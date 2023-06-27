@@ -4,18 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CtrlLove.Service;
 
-public class ChatService : IChatService
+public class ChatService : CtrlLoveService, IChatService
 {
-    private CtrlLoveContext _context { get; set; }
 
-    public ChatService(CtrlLoveContext context)
+    public ChatService(CtrlLoveContext context) : base(context)
     {
-        _context = context;
     }
 
     public async Task<List<MessageModel>> GetMessagesByChatroomId(Guid roomId, Guid userId)
     {
-        ChatRoomModel room = await GetChatRoomById(roomId);
+        ChatRoomModel room = await FindEntityById<ChatRoomModel>(roomId);
         if (room.IncludesThisParticipant(userId))
         {
             return room.Messages;
@@ -34,17 +32,5 @@ public class ChatService : IChatService
         
         return allRooms.Where(room => room.Participants.Any(p => p.Id.Equals(userId))).ToList();
 
-    }
-
-
-    public async Task<ChatRoomModel> GetChatRoomById(Guid roomId)
-    {
-        var room = _context.ChatRoomModels.FirstOrDefault(model => model.Id.Equals(roomId));
-        if (room == null)
-        {
-            throw new IdNotFoundException($"The chat room with the Id {roomId} was not found.");
-        }
-
-        return room;
     }
 }
