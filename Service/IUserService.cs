@@ -10,5 +10,5 @@ public interface IUserService
     Task<List<UserModel>> GetMatchesByUser(Guid userId);
     Task<bool> DeleteUserById(Guid userId);
     Task<UserModel> AddNewUser(UserModel user);
-    Task<bool> SignInUser(string detailsEmail, string detailsPassword);
+    Task<UserModel?> SignInUser(string detailsEmail, string detailsPassword);
 }

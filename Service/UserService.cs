@@ -25,7 +25,7 @@ public class UserService : CtrlLoveService, IUserService
         return user;
     }
     
-    public async Task<UserModel> GetUserByEmail(string email)
+    public async Task<UserModel?> GetUserByEmail(string email)
     {
         UserModel? user = await _context.UserModel.FirstOrDefaultAsync(u=>u.Email==email);
         return user;
@@ -62,7 +62,7 @@ public class UserService : CtrlLoveService, IUserService
 
     public async Task<UserModel> AddNewUser(UserModel user)
     {
-        UserModel foundUser = await GetUserByEmail(user.Email);
+        UserModel? foundUser = await GetUserByEmail(user.Email);
         if (foundUser != null)
         {
             throw new EmailAlreadyInUseException("This email address already in taken!");
@@ -77,13 +77,18 @@ public class UserService : CtrlLoveService, IUserService
         return user;
     }
 
-    public async Task<bool> SignInUser(string detailsEmail, string detailsPassword)
+    public async Task<UserModel?> SignInUser(string detailsEmail, string detailsPassword)
     {
         var user = await GetUserByEmail(detailsEmail);
+
+        if (user == null) return null;
+        
         var passwordHasher = new PasswordHasher<UserModel>();
 
         var result = passwordHasher.VerifyHashedPassword(user, user.Password, detailsPassword);
+        
+        if (result != PasswordVerificationResult.Success) return null;
 
-        return result == PasswordVerificationResult.Success;
+        return user;
     }
 }

@@ -1,7 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using CtrlLove.Models;
 using CtrlLove.Models.DTOs;
 using CtrlLove.Service;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,8 +65,28 @@ public class UserController : ControllerBase
     [HttpPost("sign-in")]
     public async Task<bool> SignInUser([FromBody] LoginCredentialsDTO details)
     {
-        Console.WriteLine(details);
-        return await _userService.SignInUser(details.Email, details.Password);
+        var user = await _userService.SignInUser(details.Email, details.Password);
+        
+        if (user == null) return false;
+        
+        var claims = new List<Claim>()
+        {
+            new Claim(ClaimTypes.Name, user.Email)
+        };
+        
+        foreach (var role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+        
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        
+        await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity)
+            );
+        
+        return true;
     }
 
     [HttpGet("my-profile/{userId}")]
