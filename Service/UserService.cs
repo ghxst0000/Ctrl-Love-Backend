@@ -33,7 +33,7 @@ public class UserService : CtrlLoveService, IUserService
 
     public async Task<UserModel> GetUserById(Guid id)
     {
-        UserModel? user = await _context.UserModel.FindAsync(id);
+        UserModel? user = await _context.UserModel.Include(user => user.Photos).FirstOrDefaultAsync(user => user.Id == id);
         if (user == null)
         {
             throw new IdNotFoundException($"The user with the Id {id} was not found.");

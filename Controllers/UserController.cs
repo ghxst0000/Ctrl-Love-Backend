@@ -95,7 +95,7 @@ public class UserController : ControllerBase
     [HttpGet("my-profile/{userId}")]
     public async Task<PrivateUserDTO> ShowOwnUserById(Guid userId)
     {
-        return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
+        return (await _userService.GetUserById(userId));
 
     }
     
