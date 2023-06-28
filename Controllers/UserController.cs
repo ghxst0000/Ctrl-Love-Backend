@@ -80,6 +80,9 @@ public class UserController : ControllerBase
         }
         
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        CookieOptions cookieOptions = new CookieOptions();
+        cookieOptions.Secure = true;
+        Response.Cookies.Append("id", user.Id.ToString(), cookieOptions);
         
         await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
