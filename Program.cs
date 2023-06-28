@@ -32,12 +32,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-        options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
-    });
+    .AddCookie();
 
 var app = builder.Build();
 
