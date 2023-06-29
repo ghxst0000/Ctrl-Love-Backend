@@ -16,7 +16,7 @@ public class UserService : CtrlLoveService, IUserService
 
     public async Task<List<UserModel>> GetAllUsers()
     {
-        return await _context.UserModel.ToListAsync();
+        return await _context.UserModel.Include(u => u.Photos).Include(u => u.Interests).ToListAsync();
     }
 
     public async Task<UserModel> GetUserByName(string name)
