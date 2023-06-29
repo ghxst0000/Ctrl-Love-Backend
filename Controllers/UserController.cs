@@ -99,6 +99,13 @@ public class UserController : ControllerBase
 
     }
     
+    [HttpGet("logout")]
+    public async Task LogoutUser()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+    }
+    
     [HttpDelete("{userId}")]
     public async Task<bool> DeleteUserById(Guid userId)
     {
