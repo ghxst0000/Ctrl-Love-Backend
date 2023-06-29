@@ -106,6 +106,15 @@ public class UserController : ControllerBase
         
     }
     
+    [HttpPut("{userId}")]
+    public async Task<UserModel> UpdateUserById(Guid userId, [FromBody] ModifyUserDTO user)
+    {
+        Console.WriteLine(user);
+        Console.WriteLine("miért");
+        return await _userService.UpdateUserById(userId, user);
+        
+    }
+    
     [HttpPost]
     public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
