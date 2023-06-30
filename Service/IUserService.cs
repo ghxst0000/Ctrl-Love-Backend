@@ -6,7 +6,7 @@ namespace CtrlLove.Service;
 
 public interface IUserService
 {
-    Task<List<UserModel>> GetAllUsers();
+    Task<List<UserModel>> GetAllUsers(Guid currentUser);
     Task<List<UserModel>> GetMatchesByUser(Guid userId);
     Task<bool> DeleteUserById(Guid userId);
     Task<UserModel> AddNewUser(UserModel user);
