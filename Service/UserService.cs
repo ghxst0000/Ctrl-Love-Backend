@@ -1,5 +1,6 @@
 ﻿using CtrlLove.Exceptions;
 using CtrlLove.Models;
+using CtrlLove.Models.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,24 @@ public class UserService : CtrlLoveService, IUserService
         }
 
         return user;
+    }
+
+    public async Task<UserModel> UpdateUserById(Guid userId, ModifyUserDTO modifiedUser)
+    {
+        UserModel existingUser = await GetUserById(userId);
+        if (existingUser == null)
+        {
+            return null;
+        }
+
+        existingUser.Name = modifiedUser.Name;
+        existingUser.Gender = modifiedUser.Gender;
+        existingUser.MinimumAge = modifiedUser.MinimumAge;
+        existingUser.MaximumAge = modifiedUser.MaximumAge;
+        existingUser.Biography = modifiedUser.Biography;
+        existingUser.Location = modifiedUser.Location;
+        await _context.SaveChangesAsync();
+        return existingUser;
     }
 
     public async Task<List<UserModel>> GetMatchesByUser(Guid userId)

@@ -13,6 +13,7 @@ namespace CtrlLove.Controllers;
 
 [ApiController]
 [Route("/api/v1/users/")]
+[Authorize]
 
 public class UserController : ControllerBase
 {
@@ -65,7 +66,7 @@ public class UserController : ControllerBase
         return (await _ctrlLoveService.FindEntityById<UserModel>(userId));
 
     }
-    
+    [AllowAnonymous]
     [HttpPost("sign-in")]
     public async Task<bool> SignInUser([FromBody] LoginCredentialsDTO details)
     {
@@ -103,6 +104,13 @@ public class UserController : ControllerBase
 
     }
     
+    [HttpGet("logout")]
+    public async Task LogoutUser()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+    }
+    
     [HttpDelete("{userId}")]
     public async Task<bool> DeleteUserById(Guid userId)
     {
@@ -110,6 +118,15 @@ public class UserController : ControllerBase
         
     }
     
+    [HttpPut("{userId}")]
+    public async Task<UserModel> UpdateUserById(Guid userId, [FromBody] ModifyUserDTO user)
+    {
+        Console.WriteLine(user);
+        Console.WriteLine("miért");
+        return await _userService.UpdateUserById(userId, user);
+        
+    }
+    [AllowAnonymous]
     [HttpPost]
     public async Task<PrivateUserDTO> PostNewUser([FromBody] UserModel user)
     {
