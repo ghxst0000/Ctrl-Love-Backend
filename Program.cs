@@ -1,6 +1,7 @@
 
 using System.Text.Json.Serialization;
 using CtrlLove.Exceptions;
+using CtrlLove.Hubs;
 using CtrlLove.Models;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -28,6 +29,8 @@ builder.Services.AddTransient<IInterestService, InterestService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddDbContext<CtrlLoveContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSignalR();
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -71,7 +74,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseHttpsRedirection();
-
+app.MapHub<ChatHub>("/chatHub");
 
 app.UseAuthorization();
 
