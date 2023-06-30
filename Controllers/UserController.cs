@@ -32,7 +32,9 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<List<PublicUserDTO>> ShowAllUsers()
     {
-        var users = await _userService.GetAllUsers();
+        var currentUser  = Request.Cookies["id"];
+        var guid = Guid.Parse(currentUser);
+        var users = await _userService.GetAllUsers(guid);
         var publicUsers = users.Select(user => (PublicUserDTO)user).ToList();
         return publicUsers;
     }
@@ -43,16 +45,18 @@ public class UserController : ControllerBase
         return await _chatService.GetMessagesByChatroomId(chatroomId, userId);
     }
     
-    [HttpGet("{userId}/chatrooms")]
+    [HttpGet("chatrooms")]
     public async Task<List<ChatRoomModel>> ShowChatroomsByUser(Guid userId)
     {
         return await _chatService.GetChatroomsByUserId(userId);
     }
     
-    [HttpGet("{userId}/matches")]
-    public async Task<List<PublicUserDTO>> ShowMatchesByUser(Guid userId)
+    [HttpGet("matches")]
+    public async Task<List<PublicUserDTO>> ShowMatchesByUser()
     {
-        return (await _userService.GetMatchesByUser(userId)).Cast<PublicUserDTO>().ToList();;
+        var currentUser  = Request.Cookies["id"];
+        var guid = Guid.Parse(currentUser);
+        return (await _userService.GetMatchesByUser(guid)).Select(user => (PublicUserDTO)user).ToList();
     }
 
     [HttpGet("{userId}")]

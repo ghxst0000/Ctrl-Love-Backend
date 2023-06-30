@@ -47,7 +47,7 @@ public class UserModel
             return false;
         }
 
-        if (!DesiredGenders.Contains(user.Gender))
+        if (!DesiredGenders.Contains(user.Gender) && user.Gender != null)
         {
             return false;
         }
