@@ -33,6 +33,7 @@ public class UserModel
     [DefaultValue(200)]
     public int MaximumAge { get; set; }
     public List<Gender>? DesiredGenders { get; set; }
+    public List<string> Roles { get; set; } = new List<string> {"User"};
 
     public bool IsInRange(int number)
     {
@@ -46,7 +47,7 @@ public class UserModel
             return false;
         }
 
-        if (!DesiredGenders.Contains(user.Gender))
+        if (!DesiredGenders.Contains(user.Gender) && user.Gender != null)
         {
             return false;
         }
