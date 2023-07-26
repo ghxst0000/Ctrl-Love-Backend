@@ -74,6 +74,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseHttpsRedirection();
+app.UseFileServer();
 app.MapHub<ChatHub>("/chatHub");
 
 app.UseAuthorization();
