@@ -6,6 +6,7 @@ using CtrlLove.Models;
 using CtrlLove.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,8 +28,25 @@ builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddTransient<CtrlLoveService>();
 builder.Services.AddTransient<IInterestService, InterestService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
+
+string postgresHost = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? Configuration["PostgreSQLSettings:Host"];
+        string postgresDatabase = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? Configuration["PostgreSQLSettings:Database"];
+        string postgresUsername = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? Configuration["PostgreSQLSettings:Username"];
+        string postgresPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? Configuration["PostgreSQLSettings:Password"];
+
+        // Construct the connection string
+        var connectionStringBuilder = new NpgsqlConnectionStringBuilder
+        {
+            Host = postgresHost,
+            Database = postgresDatabase,
+            Username = postgresUsername,
+            Password = postgresPassword
+        };
+        string connectionString = connectionStringBuilder.ToString();
+
+
 builder.Services.AddDbContext<CtrlLoveContext>(options =>
-    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 builder.Services.AddSignalR();
 
 
