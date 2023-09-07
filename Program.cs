@@ -7,6 +7,7 @@ using CtrlLove.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +30,10 @@ builder.Services.AddTransient<CtrlLoveService>();
 builder.Services.AddTransient<IInterestService, InterestService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 
-string postgresHost = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? Configuration["PostgreSQLSettings:Host"];
-        string postgresDatabase = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? Configuration["PostgreSQLSettings:Database"];
-        string postgresUsername = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? Configuration["PostgreSQLSettings:Username"];
-        string postgresPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? Configuration["PostgreSQLSettings:Password"];
+        string postgresHost = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? configuration["PostgreSQLSettings:Host"];
+        string postgresDatabase = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? configuration["PostgreSQLSettings:Database"];
+        string postgresUsername = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? configuration["PostgreSQLSettings:Username"];
+        string postgresPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? configuration["PostgreSQLSettings:Password"];
 
         // Construct the connection string
         var connectionStringBuilder = new NpgsqlConnectionStringBuilder
